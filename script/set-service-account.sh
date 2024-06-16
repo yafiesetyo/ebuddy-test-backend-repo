@@ -1,0 +1,1 @@
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/myafie/Documents/ebuddy-test/sandbox-70101-firebase-adminsdk-98vuj-cd8849d4b1.json
