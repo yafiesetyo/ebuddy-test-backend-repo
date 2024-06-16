@@ -43,8 +43,9 @@ export class ApiController implements IApiController {
   }
 
   async fetch(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id = res.locals.uid
     try {
-      const users = await this.repo.fetch();
+      const users = await this.repo.fetch(id);
       const response: IResponse = {
         data: users,
         message: "Ok",

@@ -3,7 +3,7 @@ import { IFirebase, FirebaseConfig } from "../config/firebaseConfig";
 import { UserDto } from "./dto/user";
 
 export interface IUserRepository {
-  fetch(): Promise<Array<UserDto>>;
+  fetch(uid: string): Promise<Array<UserDto>>;
   update(user: UserDto): Promise<string>;
 }
 
@@ -15,22 +15,24 @@ export class UserRepository implements IUserRepository {
     this.firebase = firebase;
   }
 
-  public fetch = async () => {
+  public fetch = async (uid: string) => {
     const fs = this.firebase.fs();
     const response: UserDto[] = [];
-    const snapshots = await fs.collection(this.userCollectionName).get();
+    const doc = await fs.collection(this.userCollectionName).doc(uid).get();
 
-    snapshots.forEach((doc) => {
-      const data = doc.data();
-      const user: UserDto = {
-        id: data.id,
-        name: data.name,
-        username: data.username,
-        password: data.password,
-      };
+    const data = doc.data();
+    if (!data || data == undefined) {
+      return response
+    }
 
-      response.push(user);
-    });
+    const user: UserDto = {
+      id: data.id,
+      name: data.name,
+      username: data.username,
+      password: data.password,
+    };
+
+    response.push(user);
 
     return response;
   };

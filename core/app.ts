@@ -31,7 +31,7 @@ const authMiddleware = function (req: Request, res: Response, next: NextFunction
 app.use(express.json());
 // app.use(authMiddleware);
 
-app.get("/", async (req: Request, res: Response, next: NextFunction) => {
+app.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   await ac.fetch(req, res, next);
 });
 
